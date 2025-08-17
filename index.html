@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Dandy Dark Emerald & Lime Accent -->
+    <!-- Chosen Palette: Dandy Dark Emerald & Lime Accent (based on www.meetdandy.com) -->
     <!-- Application Structure Plan: The SPA is designed as an interactive dashboard to give a hiring manager a non-linear way to explore the candidate's qualifications. It uses thematic sections (Overview, Journey, Competencies, Dandy Drivers, Dandy Impact) accessible via a sticky navigation. This allows the user to quickly jump to the most relevant information. Key interactions include: expanding timeline details, clicking a competency chart bar to filter evidence, and clicking Dandy Driver cards to reveal specific details and corresponding resume bullet points. This design was chosen to be more engaging and persuasive than a traditional resume, telling a clear story of qualification for the target role by directly linking resume achievements to the company's core values. -->
     <!-- Visualization & Content Choices: 
         - Career Progression -> Goal: Show growth over time -> Viz: Vertical Timeline (HTML/CSS) -> Interaction: Click to expand details -> Justification: Visually engaging way to show a non-linear career path without overwhelming the user initially.
@@ -131,10 +131,12 @@
 
     <main>
         <section id="hero" class="hero-section text-center mb-16">
-            <h2 class="text-5xl font-extrabold mb-4 text-white">Harris Lunt: MFG Trainer | Internal Comms Technologist</h2>
-            <p class="text-xl text-gray-200 max-w-3xl mx-auto">
-                A dynamic Learning & Development professional with deep experience in the dental industry, process automation, and scaling training programs in high-growth environments.
-            </p>
+            <div class="max-w-4xl mx-auto px-4"> <!-- Added this wrapping div for title overflow fix -->
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-white leading-tight">Harris Lunt: MFG Trainer | Internal Comms Technologist</h2>
+                <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto">
+                    A dynamic L&D professional with digital dental manufacturing leadership and training experience, internal comms workflow automation, engineering and implementation, and scaling training programs in high-growth environments leveraging in-house communication tools.
+                </p>
+            </div>
         </section>
 
         <section id="overview" class="container mx-auto px-6 py-12 mb-20">
@@ -147,4 +149,433 @@
                     <p class="text-sm text-gray-500">Direct experience in a hyper-growth dental tech environment.</p>
                 </div>
                 <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100">
-                    <p clas
+                    <p class="text-5xl font-bold text-dandy-green-dark mb-2">5+</p>
+                    <p class="text-lg text-gray-700">Years in Leadership</p>
+                    <p class="text-sm text-gray-500">Proven ability to train, mentor, and manage high-performing teams.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100">
+                    <p class="text-5xl font-bold text-dandy-green-dark mb-2">4+</p>
+                    <p class="text-lg text-gray-700">Key Automation Projects</p>
+                    <p class="text-sm text-gray-500">Expertise in leveraging tech like Zapier & APIs to boost efficiency.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="journey" class="container mx-auto px-6 py-12 mb-20">
+            <h3 class="text-3xl font-bold text-center mb-12 text-dandy-green-dark">Interactive Career Journey</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This timeline highlights a career path defined by growth, leadership, and increasing technical specialization. Click on any role to see the key responsibilities and achievements from that period, providing a detailed view of professional evolution.</p>
+            <div id="timeline-container" class="relative max-w-3xl mx-auto pl-10">
+            </div>
+        </section>
+
+        <section id="competencies" class="container mx-auto px-6 py-12 mb-20">
+            <h3 class="text-3xl font-bold text-center mb-12 text-dandy-green-dark">Core Competency Deep Dive</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This chart visualizes key skill areas relevant to the Employee L&D Manager role. Click on a bar to filter the list below and see direct evidence from the resume that demonstrates expertise in that domain, validating skills with concrete examples.</p>
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <div class="chart-container">
+                    <canvas id="competencyChart"></canvas>
+                </div>
+                <div id="competency-details" class="mt-8 p-6 bg-emerald-50 rounded-lg min-h-[200px] border border-emerald-100">
+                    <h4 id="details-title" class="text-xl font-semibold mb-4 text-dandy-green-dark">Select a competency to see details</h4>
+                    <ul id="details-list" class="list-disc pl-5 space-y-2 text-gray-700">
+                        <li>Evidence from the candidate's experience will appear here.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="dandy-drivers" class="container mx-auto px-6 py-12 mb-20">
+            <h3 class="text-3xl font-bold text-center mb-12 text-dandy-green-dark">Personifying Dandy's Culture: The 8 Drivers</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">Explore how this candidate's actions and decisions align with the core behaviors that power Dandy's culture and drive success. Click on each Dandy Driver to understand its meaning and discover specific examples from their experience that demonstrate these values in action.</p>
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <div id="drivers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <!-- Dandy Driver cards will be rendered here by JS -->
+                </div>
+                <div id="driver-details-pane" class="mt-8 p-6 bg-emerald-50 rounded-lg min-h-[250px] border border-emerald-100">
+                    <h4 id="driver-details-title" class="text-xl font-semibold mb-3 text-dandy-green-dark">Select a Dandy Driver to learn more</h4>
+                    <p id="driver-details-description" class="text-gray-700 mb-4"></p>
+                    <ul id="driver-details-list" class="list-disc pl-5 space-y-2 text-gray-700"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="impact" class="container mx-auto px-6 py-12 mb-20">
+            <h3 class="text-3xl font-bold text-center mb-12 text-dandy-green-dark">Key Impacts at Dandy</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">A closer look at the most significant projects and contributions made within Dandy, showcasing a direct alignment with strategic business and people operations goals, demonstrating concrete results achieved in their roles.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                    <h4 class="text-xl font-bold mb-3 text-dandy-green-dark">L&D Program Development</h4>
+                    <p class="text-gray-600">Developed and scaled comprehensive training curricula for four key manufacturing departments, establishing a foundation for the "Gold Standard" L&D department.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                    <h4 class="text-xl font-bold mb-3 text-dandy-green-dark">Onboarding Automation</h4>
+                    <p class="text-gray-600">Engineered a new-hire automation system using Google Sheets and custom scripts, drastically reducing manual admin work for onboarding across 10 departments and 2 lab sites.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                    <h4 class="text-xl font-bold mb-3 text-dandy-green-dark">Technical Subject Matter Expert</h4>
+                    <p class="text-gray-600">Served as the go-to expert for 3D printing and removables workflows, troubleshooting complex issues and supervising technical teams to ensure quality and efficiency.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white mt-20 border-t">
+        <div class="container mx-auto px-6 py-6 text-center text-gray-500">
+            <p>Interactive Resume Edited by Harris Lunt c 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const resumeData = {
+                experience: [
+                    {
+                        role: "Manufacturer Trainer | Internal Communications",
+                        company: "Dandy",
+                        period: "May 2025 - Present",
+                        details: [
+                            { text: "Developed and implemented comprehensive training curricula and onboarding programs for 3D print, Milling, Singulation, and Removables, ensuring adherence to SOPs and driving high-quality product fabrication. Achieved a **+95% graduation rate** for new-hire onboarding training, ensuring rapid integration into production workflows and Dandians contributing to the floor on day 1.", tags: ['L&D', 'Dental', 'DD_Quality', 'DD_Customer', 'DD_WalkFloor', 'Comms'] },
+                            { text: "Trained and supported new hires during the onboarding process to improve performance. Ensured trainees meet week-two ramp expectations through standardized assessments customized to 3 separate work centers, achieving time-to-full-productivity for 3D print post-processing technicians, singulation and milling technicians, and removable and denture finishing technicians in **one week of training**.", tags: ['L&D', 'Leadership', 'DD_Teams', 'DD_Owner', 'DD_Speed', 'DD_WinOne', 'Comms'] },
+                            { text: "Engineered and deployed a new-hire onboarding automation system leveraging Google Sheets and custom scripts. This automation, which a senior manager (earning ~$125K/year) might spend 10 minutes a week on, **saved an estimated 20 hours per month** in administrative overhead across multiple departments. Follow-up surveys are also automated in the comms dashboard.", tags: ['Automation', 'L&D', 'DD_Owner', 'DD_Speed', 'DD_Tomorrow', 'Comms'] },
+                            { text: "Developed and executed complex workflow automations using Zapier and custom APIs, integrating critical business applications for seamless information flow. Developed a proof-of-concept for an additional email automation in the comms dashboard, presented to my first-line supervisor who has already utilized it for sending welcome emails in my absence, streamlining this previously manual task.", tags: ['Automation', 'DD_Owner', 'DD_Tomorrow', 'Comms', 'DD_WinOne'] }
+                        ]
+                    },
+                    {
+                        role: "3D Print & Removables, Team Lead, Ops",
+                        company: "Dandy",
+                        period: "Jul 2023 - May 2025",
+                        details: [
+                            { text: "Served as the shift subject-matter-expert on workflow, equipment, and 3D print operations, troubleshooting process and technology issues in a fast-paced dental lab.", tags: ['Dental', 'Leadership', 'DD_WalkFloor', 'DD_Owner', 'DD_Speed', 'Comms'] },
+                            { text: "Supervised 5-13 3D Printing & Removables Technicians, ensuring order processing, adherence to QC standards, and deepening practical knowledge of dental treatments (dentures, night guards, surgical guides).", tags: ['Leadership', 'Dental', 'DD_Quality', 'DD_WinOne', 'DD_Teams', 'Comms'] },
+                            { text: "Operated and maintained 12 3D printing machines; printed, washed, cured, and fabricated 3D printed dental models.", tags: ['Dental', 'DD_WalkFloor', 'DD_Quality'] }
+                        ]
+                    },
+                    {
+                        role: "Support Analyst",
+                        company: "Carta",
+                        period: "May 2022 - Feb 2023",
+                        details: [
+                            { text: "Troubleshot equity management software issues with legal professionals across various communication channels, maintaining perfect 5/5 customer satisfaction scores.", tags: ['Comms', 'DD_Customer'] }
+                        ]
+                    },
+                    {
+                        role: "Fire Control Sergeant",
+                        company: "US Army",
+                        period: "Jun 2016 - Mar 2020",
+                        details: [
+                            { text: "Mentored and coached new soldiers on basic warrior tasks and battle drills, fostering high performance and teamwork.", tags: ['Leadership', 'L&D', 'DD_Teams', 'DD_WinOne', 'Comms', 'DD_Quality'] },
+                            { text: "Managed a section of 4-6 soldiers, demonstrating ownership and accountability in a critical leadership role (Chief of Section, E-6 position as an E-4).", tags: ['Leadership', 'DD_WinOne', 'DD_Owner'] },
+                            { text: "Awarded top FDC and Soldier of the Month (April/May 2018), showcasing dedication to excellence and consistent quality results.", tags: ['DD_Quality', 'DD_Owner', 'DD_Speed'] }
+                        ]
+                    },
+                    {
+                        role: "Automated Field Artillery Tactical Data Systems Specialist",
+                        company: "Idaho Army National Guard",
+                        period: "Nov 2010 - Jun 2016",
+                        details: [
+                            { text: "Computed firing data utilizing specialized software and manual techniques, ensuring precision in critical operations and attention to detail.", tags: ['Technical', 'DD_WalkFloor', 'DD_Quality'] },
+                            { text: "Maintained digital communication systems, ensuring seamless information flow and anticipating future communication needs.", tags: ['Technical', 'Comms', 'DD_Tomorrow', 'DD_Speed'] },
+                            { text: "Earned Distinguished Honor Graduate (top of class) at Advanced Individual Training, reflecting a commitment to excellence in learning and self-improvement.", tags: ['DD_Quality', 'L&D', 'DD_Owner'] }
+                        ]
+                    },
+                    {
+                        role: "Operations Manager / Acting Assistant Store Manager",
+                        company: "Old Navy",
+                        period: "Jul 2013 - Jul 2015",
+                        details: [
+                            { text: "Managed and mentored teams of supervisors and sales associates (3-12 people), overseeing daily operations and fostering a collaborative environment to achieve collective goals.", tags: ['Leadership', 'DD_Teams', 'DD_WinOne', 'Comms'] },
+                            { text: "Developed and implemented store compliance action plans based on audit findings, demonstrating a proactive approach to continuous improvement and ensuring quality results.", tags: ['Strategy', 'DD_Owner', 'DD_Quality', 'DD_Tomorrow', 'Comms'] },
+                            { text: "Planned annual community outreach event: The Kids’ Safety Fair for three years, enhancing community engagement and demonstrating customer obsession beyond transactional interactions.", tags: ['DD_Customer', 'DD_WinOne'] }
+                        ]
+                    },
+                     {
+                        role: "Pricing Specialist",
+                        company: "Old Navy",
+                        period: "Jul 2012 - Jul 2013",
+                        details: [
+                            { text: "Developed, trained, and mentored two Pricing Specialists, empowering team members with essential skills and contributing to building winning teams.", tags: ['L&D', 'Leadership', 'DD_Teams', 'DD_WinOne', 'Comms'] }
+                        ]
+                    },
+                    {
+                        role: "Merchandising Specialist",
+                        company: "Old Navy",
+                        period: "Nov 2010 - Jun 2012",
+                        details: [
+                            { text: "Optimized store presentation and efficiency, leading the merchandising team to exceed 150 units processed per hour during holiday seasons, demonstrating a bias for action and results.", tags: ['DD_Quality', 'DD_Speed', 'DD_WinOne', 'DD_WalkFloor'] }
+                        ]
+                    },
+                    {
+                        role: "Personal Projects & Technical Skills",
+                        company: "Self-Employed",
+                        period: "Various",
+                        details: [
+                            { text: "Designed and developed personal webpages for writing projects, **leveraging platforms like GitHub Pages for free, public distribution and marketing**, and integrated tools like Jetpack (for performance and security) and Analytics (for content optimization and user engagement tracking), demonstrating ownership and a forward-looking approach to communication.", tags: ['Comms', 'Automation', 'Strategy', 'DD_Owner', 'DD_Tomorrow', 'DD_Customer'] },
+                            { text: "Engage in personal writing, including essays and analysis, demonstrating advanced communication skills, logical argumentation, and commitment to continuous learning (current reading list includes 'Infinite Jest,' the Holy Bible, and 'The Best American Essays,' alongside ongoing literary analysis).", tags: ['Comms', 'L&D', 'DD_Owner', 'DD_Tomorrow', 'DD_WalkFloor'] }
+                        ]
+                    }
+                ]
+            };
+
+            const competencyData = {
+                labels: ['Learning & Development (L&D)', 'Leadership & Management', 'Technical Automation & AI', 'Dental Industry Expertise', 'Communication & Content Creation', 'Strategic Planning'],
+                values: [5, 5, 4, 4, 5, 3] 
+            };
+
+            const dandyDriversData = [
+                {
+                    name: "Obsess Over Customers",
+                    tag: "DD_Customer",
+                    description: "Center our customer in everything you do. Exceed expectations through constant innovation and thoughtful risk-taking, delivering solutions that surprise, delight, and create lasting value for our customer. Anticipate their needs by deeply understanding their challenges, proactively identifying opportunities, and ensuring every interaction builds trust and strengthens our relationship."
+                },
+                {
+                    name: "Be an Owner",
+                    tag: "DD_Owner",
+                    description: "Dandy belongs to each of us. Take initiative and find solutions, not excuses. Devour challenges and lean into the problems that others think are too hard. Champion accountability, scale obstacles, and drive meaningful impact. Take responsibility for your mistakes often and transparently. Be an owner, not a renter."
+                },
+                {
+                    name: "Deliver Quality Results",
+                    tag: "DD_Quality",
+                    description: "Execute with excellence. Achieve goals that drive meaningful outcomes and define unreasonably high standards for success. Demand superior quality from yourself and others, innovate on what is commonplace, and rebuild from the ground up when necessary."
+                },
+                {
+                    name: "Win as One",
+                    tag: "DD_WinOne",
+                    description: "Collective effort, greater results. Earn trust, be transparent, and support teammates. Communicate respectfully, delegate appropriately, and say important things, even when difficult. Eliminate silos and foster collaboration to achieve more than what's possible alone."
+                },
+                {
+                    name: "Walk the Floor",
+                    tag: "DD_WalkFloor",
+                    description: "Operate at the lowest level of detail. Work with precision and understand all of the inputs to your systems. Solve problems by recognizing how work gets done in practice, not just in theory. Question when metrics and experience differ to uncover root causes and opportunities for improvement."
+                },
+                {
+                    name: "Move at Dandy Speed",
+                    tag: "DD_Speed",
+                    description: "Act with urgency and intention. Make thoughtful, swift decisions that keep us moving forward, balancing long-term impact with a bias for action. Embrace calculated risks, course-correct as needed, and prioritize progress over perfection to deliver impactful results."
+                },
+                {
+                    name: "See Tomorrow Clearly",
+                    tag: "DD_Tomorrow",
+                    description: "Clarity in chaos. Connect the dots across systems, challenge assumptions, and distill complexity into smart, simple strategies. Tackle ambiguity with curiosity and courage, anticipating risks and opportunities while making informed tradeoffs. By understanding the future, you prioritize ruthlessly and ensure that today’s decisions set up for tomorrow’s success."
+                },
+                {
+                    name: "Build Winning Teams",
+                    tag: "DD_Teams",
+                    description: "High performers, higher standards. Develop Dandy's greatest strength. Set high standards, invest in growth to build engaged teams, and hire top talent against these criteria. Celebrate the wins, provide constant feedback, and make difficult decisions to maintain the bar for performance."
+                }
+            ];
+
+            let activeDriverCard = null; // To keep track of the currently active card
+
+            function renderTimeline() {
+                const container = document.getElementById('timeline-container');
+                let html = '';
+                resumeData.experience.forEach(job => {
+                    html += `
+                        <div class="relative mb-8 pl-8 timeline-item">
+                            <div class="timeline-dot"></div>
+                            <details class="cursor-pointer">
+                                <summary class="font-semibold text-lg text-gray-800">${job.role} <span class="text-gray-500 font-normal">at ${job.company}</span>
+                                <p class="text-sm text-gray-500 font-medium">${job.period}</p>
+                                </summary>
+                                <ul class="mt-4 list-disc pl-5 space-y-2 text-gray-600">
+                                    ${job.details.map(d => `<li>${d.text}</li>`).join('')}
+                                </ul>
+                            </details>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            }
+
+            let competencyChart;
+            function renderCompetencyChart() {
+                const ctx = document.getElementById('competencyChart').getContext('2d');
+                competencyChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: competencyData.labels,
+                        datasets: [{
+                            label: 'Proficiency Level',
+                            data: competencyData.values,
+                            backgroundColor: '#61F4D3', /* Lime green accent */
+                            borderColor: '#3FE0BF', /* Darker lime */
+                            borderWidth: 1,
+                            borderRadius: 4,
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 5,
+                                grid: { display: false },
+                                ticks: { display: false }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: {
+                                    font: { size: 14 },
+                                    padding: 10 // Added for better label spacing
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                enabled: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        return ` Proficiency: ${context.raw}/5`;
+                                    }
+                                }
+                            }
+                        },
+                        onClick: (event, elements) => {
+                            if (elements.length > 0) {
+                                const elementIndex = elements[0].index;
+                                const label = competencyChart.data.labels[elementIndex];
+                                let tag;
+                                if (label.includes('L&D')) tag = 'L&D';
+                                else if (label.includes('Leadership')) tag = 'Leadership';
+                                else if (label.includes('Automation')) tag = 'Automation';
+                                else if (label.includes('Dental')) tag = 'Dental';
+                                else if (label.includes('Strategic')) tag = 'Strategy';
+                                else if (label.includes('Communication')) tag = 'Comms';
+                                updateCompetencyDetails(tag, label);
+                            }
+                        }
+                    }
+                });
+            }
+            
+            function updateCompetencyDetails(tag, label) {
+                const titleEl = document.getElementById('details-title');
+                const listEl = document.getElementById('details-list');
+                
+                titleEl.textContent = `Evidence for: ${label}`;
+                
+                const relevantDetails = resumeData.experience
+                    .flatMap(job => job.details)
+                    .filter(detail => detail.tags.includes(tag));
+
+                if (relevantDetails.length > 0) {
+                    listEl.innerHTML = relevantDetails.map(d => `<li>${d.text}</li>`).join('');
+                } else {
+                    listEl.innerHTML = '<li>No specific examples found for this category.</li>';
+                }
+            }
+
+            function renderDandyDrivers() {
+                const driversGrid = document.getElementById('drivers-grid');
+                let html = '';
+                dandyDriversData.forEach(driver => {
+                    html += `
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 text-center font-semibold text-dandy-green-dark dandy-driver-card" data-driver-tag="${driver.tag}">
+                            ${driver.name}
+                        </div>
+                    `;
+                });
+                driversGrid.innerHTML = html;
+
+                driversGrid.querySelectorAll('.dandy-driver-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        // Remove active class from previous card
+                        if (activeDriverCard) {
+                            activeDriverCard.classList.remove('active');
+                        }
+                        // Add active class to current card
+                        card.classList.add('active');
+                        activeDriverCard = card;
+
+                        const tag = card.dataset.driverTag;
+                        const driver = dandyDriversData.find(d => d.tag === tag);
+                        updateDandyDriverDetails(driver);
+                    });
+                });
+            }
+
+            function updateDandyDriverDetails(driver) {
+                const titleEl = document.getElementById('driver-details-title');
+                const descriptionEl = document.getElementById('driver-details-description');
+                const listEl = document.getElementById('driver-details-list');
+
+                if (!driver) { // Added a check for undefined driver
+                    titleEl.textContent = 'Select a Dandy Driver to learn more';
+                    descriptionEl.textContent = '';
+                    listEl.innerHTML = '';
+                    return;
+                }
+
+                titleEl.textContent = driver.name;
+                descriptionEl.textContent = driver.description;
+                
+                const allRelevantDetails = resumeData.experience
+                    .flatMap(job => job.details)
+                    .filter(detail => detail.tags.includes(driver.tag));
+                
+                // Limit to top 3 relevant points if more exist
+                const displayDetails = allRelevantDetails.slice(0, 3);
+
+                if (displayDetails.length > 0) {
+                    listEl.innerHTML = displayDetails.map(d => `<li>${d.text}</li>`).join('');
+                } else {
+                    listEl.innerHTML = '<li>No direct examples found for this driver in the provided resume.</li>';
+                }
+            }
+
+            function handleScrollspy() {
+                const sections = document.querySelectorAll('section');
+                const navLinks = document.querySelectorAll('.nav-link');
+                
+                // Logic for active link on scroll (already present)
+                window.onscroll = () => {
+                    let current = '';
+                    sections.forEach(section => {
+                        const sectionTop = section.offsetTop;
+                        // Added 150px offset to make the active state switch a bit earlier
+                        if (pageYOffset >= sectionTop - 150) { 
+                            current = section.getAttribute('id');
+                        }
+                    });
+
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').includes(current)) {
+                            link.classList.add('active');
+                        }
+                    });
+                };
+
+                // NEW LOGIC: Smooth scrolling when a nav link is clicked
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (event) => {
+                        event.preventDefault(); // Prevent default jump behavior
+                        const targetId = event.target.getAttribute('href').substring(1); // Get the section ID
+                        const targetSection = document.getElementById(targetId);
+
+                        if (targetSection) {
+                            targetSection.scrollIntoView({
+                                behavior: 'smooth' // Smooth scroll effect
+                            });
+
+                            // Optionally, update active class immediately on click
+                            navLinks.forEach(nav => nav.classList.remove('active'));
+                            event.target.classList.add('active');
+                        }
+                    });
+                });
+            }
+
+            // Ensure all rendering and event listeners are called
+            renderTimeline();
+            renderCompetencyChart();
+            renderDandyDrivers();
+            handleScrollspy();
+        });
+    </script>
+</body>
+</html>
