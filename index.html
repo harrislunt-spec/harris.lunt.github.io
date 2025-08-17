@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Learning & Development Manager Candidate Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Dandy Dark Emerald & Lime Accent -->
+    <!-- Application Structure Plan: The SPA is designed as an interactive dashboard to give a hiring manager a non-linear way to explore the candidate's qualifications. It uses thematic sections (Overview, Journey, Competencies, Dandy Drivers, Dandy Impact) accessible via a sticky navigation. This allows the user to quickly jump to the most relevant information. Key interactions include: expanding timeline details, clicking a competency chart bar to filter evidence, and clicking Dandy Driver cards to reveal specific details and corresponding resume bullet points. This design was chosen to be more engaging and persuasive than a traditional resume, telling a clear story of qualification for the target role by directly linking resume achievements to the company's core values. -->
+    <!-- Visualization & Content Choices: 
+        - Career Progression -> Goal: Show growth over time -> Viz: Vertical Timeline (HTML/CSS) -> Interaction: Click to expand details -> Justification: Visually engaging way to show a non-linear career path without overwhelming the user initially.
+        - Core Skills -> Goal: Map skills to job requirements -> Viz: Interactive Horizontal Bar Chart (Chart.js/Canvas) -> Interaction: Click a skill bar to filter and display relevant resume bullet points -> Justification: Directly connects asserted skills with tangible evidence, making it easy for a recruiter to validate qualifications.
+        - Dandy Drivers -> Goal: Demonstrate alignment with company culture -> Viz: Clickable Cards with Detail Pane (HTML/CSS/JS) -> Interaction: Click a card to reveal driver definition and relevant resume bullet points -> Justification: Creates a direct, interactive link between stated company values and candidate's practical experience.
+        - Key Projects -> Goal: Highlight most relevant achievements -> Viz: Content Cards (HTML/CSS) -> Interaction: Subtle hover effects -> Justification: Breaks down major accomplishments at Dandy into digestible, visually distinct blocks.
+        - Library/Method: Chart.js for canvas-based charting; Vanilla JS for all state management and DOM manipulation. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC; /* Light background similar to Dandy's secondary areas */
+            color: #1A202C; /* Dark text for contrast */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .header-bg {
+            background-color: #1A3A31; /* Dark green from Dandy homepage hero */
+        }
+        .text-dandy-green-dark {
+            color: #1A3A31; /* Dark green for primary elements */
+        }
+        .text-dandy-lime {
+            color: #BFFF00; /* Bright lime accent */
+        }
+        .bg-dandy-lime {
+            background-color: #BFFF00; /* Bright lime accent */
+        }
+        .border-dandy-lime {
+            border-color: #BFFF00; /* Bright lime accent */
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+            color: #F8FAFC; /* White-ish for inactive links on dark header */
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #BFFF00; /* Lime accent on hover */
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #BFFF00; /* Lime accent on hover/active */
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -21px;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background-color: #E2E8F0; /* Lighter grey for timeline line */
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -28px;
+            top: 4px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #F8FAFC; /* Matches body background */
+            border: 2px solid #BFFF00; /* Lime accent dot */
+        }
+        .dandy-driver-card {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .dandy-driver-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .dandy-driver-card.active {
+            border-color: #BFFF00; /* Lime accent border on active */
+            background-color: #EEFFD1; /* Very light lime background on active */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .hero-section {
+            background-color: #1A3A31; /* Dandy's dark green */
+            color: white;
+            padding: 80px 0;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="header-bg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 id="nav-title" class="text-2xl font-bold text-white">Employee Learning & Development Manager Candidate Profile</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" class="nav-link active">Overview</a>
+                <a href="#journey" class="nav-link">Career Journey</a>
+                <a href="#competencies" class="nav-link">Core Competencies</a>
+                <a href="#dandy-drivers" class="nav-link">Dandy Drivers</a>
+                <a href="#impact" class="nav-link">Dandy Impact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="hero-section text-center mb-16">
+            <h2 class="text-5xl font-extrabold mb-4 text-white">Harris Lunt: MFG Trainer | Internal Comms Technologist</h2>
+            <p class="text-xl text-gray-200 max-w-3xl mx-auto">
+                A dynamic Learning & Development professional with deep experience in the dental industry, process automation, and scaling training programs in high-growth environments.
+            </p>
+        </section>
+
+        <section id="overview" class="container mx-auto px-6 py-12 mb-20">
+            <h3 class="text-3xl font-bold text-center mb-10 text-dandy-green-dark">Career at a Glance</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This section provides a quick summary of key career highlights and **quantifiable achievements**, offering an immediate snapshot of the candidate's professional trajectory and impact.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100">
+                    <p class="text-5xl font-bold text-dandy-green-dark mb-2">2+</p>
+                    <p class="text-lg text-gray-700">Years at Dandy</p>
+                    <p class="text-sm text-gray-500">Direct experience in a hyper-growth dental tech environment.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100">
+                    <p clas
