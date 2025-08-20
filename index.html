@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Learning & Development Manager Candidate Profile</title>
+    <title>Harris Lunt: Advancing L&D & Internal Comms</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Dandy Dark Emerald & Lime Accent (based on www.meetdandy.com) -->
-    <!-- Application Structure Plan: The SPA is designed as an interactive dashboard to give a hiring manager a non-linear way to explore the candidate's qualifications. It uses thematic sections (Overview, Journey, Competencies, Dandy Drivers, Dandy Impact) accessible via a sticky navigation. This allows the user to quickly jump to the most relevant information. Key interactions include: expanding timeline details, clicking a competency chart bar to filter evidence, and clicking Dandy Driver cards to reveal specific details and corresponding resume bullet points. This design was chosen to be more engaging and persuasive than a traditional resume, telling a clear story of qualification for the target role by directly linking resume achievements to the company's core values. -->
-    <!-- Visualization & Content Choices: 
+    <!-- Chosen Palette: Colorado Rockies inspired - Deep Purple, Black, and Silver/Light Gray -->
+    <!-- Application Structure Plan: The SPA is designed as an interactive dashboard to give a hiring manager a non-linear way to explore the candidate's qualifications. It uses thematic sections (Overview, Journey, Competencies, Universal Traits, Key Impacts) accessible via a sticky navigation. This allows the user to quickly jump to the most relevant information. Key interactions include: expanding timeline details, clicking a competency chart bar to filter evidence, and clicking Universal Trait cards to reveal specific details and corresponding resume bullet points. This design was chosen to be more engaging and persuasive than a traditional resume, telling a clear story of qualification for the target role by directly linking resume achievements to the company's core values. -->
+    <!-- Visualization & Content Choices:
         - Career Progression -> Goal: Show growth over time -> Viz: Vertical Timeline (HTML/CSS) -> Interaction: Click to expand details -> Justification: Visually engaging way to show a non-linear career path without overwhelming the user initially.
         - Core Skills -> Goal: Map skills to job requirements -> Viz: Interactive Horizontal Bar Chart (Chart.js/Canvas) -> Interaction: Click a skill bar to filter and display relevant resume bullet points -> Justification: Directly connects asserted skills with tangible evidence, making it easy for a recruiter to validate qualifications.
-        - Dandy Drivers -> Goal: Demonstrate alignment with company culture -> Viz: Clickable Cards with Detail Pane (HTML/CSS/JS) -> Interaction: Click a card to reveal driver definition and relevant resume bullet points -> Justification: Creates a direct, interactive link between stated company values and candidate's practical experience.
+        - Universal Traits -> Goal: Demonstrate alignment with universal professional values -> Viz: Clickable Cards with Detail Pane (HTML/CSS/JS) -> Interaction: Click a card to reveal trait definition and relevant resume bullet points -> Justification: Creates a direct, interactive link between stated professional values and candidate's practical experience.
         - Key Projects -> Goal: Highlight most relevant achievements -> Viz: Content Cards (HTML/CSS) -> Interaction: Subtle hover effects -> Justification: Breaks down major accomplishments at Dandy into digestible, visually distinct blocks.
         - Library/Method: Chart.js for canvas-based charting; Vanilla JS for all state management and DOM manipulation. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F8FAFC; /* Light background similar to Dandy's secondary areas */
+            background-color: #F8FAFC; /* Very Light Gray (near white) for main background */
             color: #1A202C; /* Dark text for contrast */
         }
         .chart-container {
@@ -38,26 +37,37 @@
                 height: 350px;
             }
         }
+        /* Rockies Inspired Palette */
+        .rockies-purple-dark {
+            background-color: #3C1053; /* Deep Purple */
+        }
+        .text-rockies-purple-dark {
+            color: #3C1053; /* Deep Purple text */
+        }
+        .rockies-silver {
+            background-color: #C0C0C0; /* Silver accent */
+        }
+        .text-rockies-silver {
+            color: #C0C0C0; /* Silver text */
+        }
+        .border-rockies-silver {
+            border-color: #C0C0C0; /* Silver border */
+        }
+        .bg-black-rockies { /* Use for darker elements or text */
+            background-color: #000000;
+        }
+        .text-black-rockies {
+            color: #000000;
+        }
+
         .header-bg {
-            background-color: #1A3A31; /* Dark green from Dandy homepage hero */
-        }
-        .text-dandy-green-dark {
-            color: #1A3A31; /* Dark green for primary elements */
-        }
-        .text-dandy-lime {
-            color: #BFFF00; /* Bright lime accent */
-        }
-        .bg-dandy-lime {
-            background-color: #BFFF00; /* Bright lime accent */
-        }
-        .border-dandy-lime {
-            border-color: #BFFF00; /* Bright lime accent */
+            background-color: #3C1053; /* Deep Purple for header */
         }
         .nav-link {
             transition: all 0.3s ease;
             position: relative;
             padding-bottom: 4px;
-            color: #F8FAFC; /* White-ish for inactive links on dark header */
+            color: #FFFFFF; /* White for inactive links on dark header */
         }
         .nav-link::after {
             content: '';
@@ -66,11 +76,11 @@
             left: 0;
             width: 0;
             height: 2px;
-            background-color: #BFFF00; /* Lime accent on hover */
+            background-color: #C0C0C0; /* Silver accent on hover */
             transition: width 0.3s ease;
         }
         .nav-link:hover, .nav-link.active {
-            color: #BFFF00; /* Lime accent on hover/active */
+            color: #C0C0C0; /* Silver accent on hover/active */
         }
         .nav-link:hover::after, .nav-link.active::after {
             width: 100%;
@@ -82,7 +92,7 @@
             top: 0;
             width: 1px;
             height: 100%;
-            background-color: #E2E8F0; /* Lighter grey for timeline line */
+            background-color: #D1D5DB; /* Lighter grey for timeline line */
         }
         .timeline-dot {
             position: absolute;
@@ -92,69 +102,105 @@
             height: 15px;
             border-radius: 50%;
             background-color: #F8FAFC; /* Matches body background */
-            border: 2px solid #BFFF00; /* Lime accent dot */
+            border: 2px solid #3C1053; /* Deep Purple dot */
         }
-        .dandy-driver-card {
+        .universal-trait-card {
             cursor: pointer;
             transition: all 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            min-height: 250px;
         }
-        .dandy-driver-card:hover {
+        .universal-trait-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        .dandy-driver-card.active {
-            border-color: #BFFF00; /* Lime accent border on active */
-            background-color: #EEFFD1; /* Very light lime background on active */
+        .universal-trait-card.active {
+            border-color: #3C1053; /* Deep Purple border on active */
+            background-color: #F0F0F0; /* Very light gray background on active */
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+        .universal-trait-card img {
+            max-width: 100px;
+            height: auto;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
+        }
         .hero-section {
-            background-color: #1A3A31; /* Dandy's dark green */
+            background-color: #3C1053; /* Deep Purple */
             color: white;
             padding: 80px 0;
+        }
+        /* New section specific styling for the human insight */
+        .human-insight-statement {
+            background-color: #F0F0F0; /* A lighter gray from the Rockies palette */
+            color: #000000; /* Black for strong contrast */
+            padding: 30px 20px;
+            margin-bottom: 20px; /* Space before the header */
+            border-bottom: 3px solid #3C1053; /* Strong bottom border */
+            border-top: 3px solid #3C1053; /* Strong top border */
+            text-align: center;
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* font-semibold */
+            font-style: italic;
+            line-height: 1.6;
+        }
+        .human-insight-statement .highlight {
+            color: #3C1053; /* Deep Purple for emphasis */
+            font-weight: bold;
         }
     </style>
 </head>
 <body class="antialiased">
 
+    <!-- Sticky Navigation -->
     <header class="header-bg sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 id="nav-title" class="text-2xl font-bold text-white">Employee Learning & Development Manager Candidate Profile</h1>
+            <h1 id="nav-title" class="text-2xl font-bold text-white">Harris Lunt: Advancing L&D & Internal Comms</h1>
             <div class="hidden md:flex space-x-8">
                 <a href="#overview" class="nav-link active">Overview</a>
                 <a href="#journey" class="nav-link">Career Journey</a>
                 <a href="#competencies" class="nav-link">Core Competencies</a>
-                <a href="#dandy-drivers" class="nav-link">Dandy Drivers</a>
-                <a href="#impact" class="nav-link">Dandy Impact</a>
+                <a href="#universal-traits" class="nav-link">Universal Traits</a>
+                <a href="#impact" class="nav-link">Key Impacts</a>
             </div>
         </nav>
     </header>
 
     <main>
         <section id="hero" class="hero-section text-center mb-16">
-            <div class="max-w-4xl mx-auto px-4"> <!-- Added this wrapping div for title overflow fix -->
-                <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-white leading-tight">Harris Lunt: MFG Trainer | Internal Comms Technologist</h2>
+            <div class="max-w-4xl mx-auto px-4">
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-white leading-tight">Harris Lunt: L&D Professional | Internal Comms Technologist</h2>
                 <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto">
-                    A dynamic L&D professional with digital dental manufacturing leadership and training experience, internal comms workflow automation, engineering and implementation, and scaling training programs in high-growth environments leveraging in-house communication tools.
+                    A dynamic professional with a strong background in training, leadership, and digital communications, leveraging technology for efficiency and fostering informed, high-performing teams in fast-paced environments.
                 </p>
+                <div class="mt-8 flex justify-center space-x-4">
+                    <a href="https://www.linkedin.com/in/harris-lunt" target="_blank" class="border-2 border-rockies-silver text-rockies-silver hover:bg-rockies-silver hover:text-rockies-purple-dark font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out">
+                        LinkedIn
+                    </a>
+                </div>
             </div>
         </section>
 
         <section id="overview" class="container mx-auto px-6 py-12 mb-20">
-            <h3 class="text-3xl font-bold text-center mb-10 text-dandy-green-dark">Career at a Glance</h3>
+            <h3 class="text-3xl font-bold text-center mb-10 text-rockies-purple-dark">Career at a Glance</h3>
             <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This section provides a quick summary of key career highlights and **quantifiable achievements**, offering an immediate snapshot of the candidate's professional trajectory and impact.</p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100">
-                    <p class="text-5xl font-bold text-dandy-green-dark mb-2">2+</p>
-                    <p class="text-lg text-gray-700">Years at Dandy</p>
-                    <p class="text-sm text-gray-500">Direct experience in a hyper-growth dental tech environment.</p>
+                    <p class="text-5xl font-bold text-rockies-purple-dark mb-2">2+</p>
+                    <p class="text-lg text-gray-700">Years in Hyper-Growth Tech</p>
+                    <p class="text-sm text-gray-500">Direct experience scaling solutions in dynamic environments.</p>
                 </div>
                 <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100">
-                    <p class="text-5xl font-bold text-dandy-green-dark mb-2">5+</p>
+                    <p class="text-5xl font-bold text-rockies-purple-dark mb-2">11+</p>
                     <p class="text-lg text-gray-700">Years in Leadership</p>
                     <p class="text-sm text-gray-500">Proven ability to train, mentor, and manage high-performing teams.</p>
                 </div>
                 <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100">
-                    <p class="text-5xl font-bold text-dandy-green-dark mb-2">4+</p>
+                    <p class="text-5xl font-bold text-rockies-purple-dark mb-2">4+</p>
                     <p class="text-lg text-gray-700">Key Automation Projects</p>
                     <p class="text-sm text-gray-500">Expertise in leveraging tech like Zapier & APIs to boost efficiency.</p>
                 </div>
@@ -162,21 +208,25 @@
         </section>
 
         <section id="journey" class="container mx-auto px-6 py-12 mb-20">
-            <h3 class="text-3xl font-bold text-center mb-12 text-dandy-green-dark">Interactive Career Journey</h3>
+            <h3 class="text-3xl font-bold text-center mb-12 text-rockies-purple-dark">Interactive Career Journey</h3>
             <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This timeline highlights a career path defined by growth, leadership, and increasing technical specialization. Click on any role to see the key responsibilities and achievements from that period, providing a detailed view of professional evolution.</p>
             <div id="timeline-container" class="relative max-w-3xl mx-auto pl-10">
+                <!-- Timeline items will be rendered here by JS -->
             </div>
         </section>
 
         <section id="competencies" class="container mx-auto px-6 py-12 mb-20">
-            <h3 class="text-3xl font-bold text-center mb-12 text-dandy-green-dark">Core Competency Deep Dive</h3>
-            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This chart visualizes key skill areas relevant to the Employee L&D Manager role. Click on a bar to filter the list below and see direct evidence from the resume that demonstrates expertise in that domain, validating skills with concrete examples.</p>
+            <h3 class="text-3xl font-bold text-center mb-12 text-rockies-purple-dark">Core Competency Deep Dive</h3>
+            <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Dive deeper into my core strengths, essential for thriving in L&D and Internal Communications roles. My competencies are meticulously evaluated on a scale of **0-4**, with **0** indicating **Incompetent** and **4** signifying **Outstanding Work, consistently exceeding expectations with contributions unforeseen or even imagined by immediate supervisors**. This granular **0.1** scale offers an exceptionally honest and precise self-assessment of my impact and proficiency. Click on any bar below to reveal a **relatable, quantifiable impact statement** and direct evidence from my resume, showcasing these skills in action.</p>
             <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
                 <div class="chart-container">
                     <canvas id="competencyChart"></canvas>
                 </div>
-                <div id="competency-details" class="mt-8 p-6 bg-emerald-50 rounded-lg min-h-[200px] border border-emerald-100">
-                    <h4 id="details-title" class="text-xl font-semibold mb-4 text-dandy-green-dark">Select a competency to see details</h4>
+                <div id="competency-quantification" class="mt-4 p-4 bg-gray-100 rounded-lg border border-gray-200 text-rockies-purple-dark font-medium text-lg text-center hidden">
+                    <!-- Relatable quantification will appear here -->
+                </div>
+                <div id="competency-details" class="mt-8 p-6 bg-gray-50 rounded-lg min-h-[200px] border border-gray-100">
+                    <h4 id="details-title" class="text-xl font-semibold mb-4 text-rockies-purple-dark">Select a competency to see details</h4>
                     <ul id="details-list" class="list-disc pl-5 space-y-2 text-gray-700">
                         <li>Evidence from the candidate's experience will appear here.</li>
                     </ul>
@@ -184,15 +234,55 @@
             </div>
         </section>
 
-        <section id="dandy-drivers" class="container mx-auto px-6 py-12 mb-20">
-            <h3 class="text-3xl font-bold text-center mb-12 text-dandy-green-dark">Dandy Drivers Exemplified</h3>
-            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">Explore how this candidate's actions and decisions align with the core behaviors that power Dandy's culture and drive success. Click on each Dandy Driver to understand its meaning and discover specific examples from their experience that demonstrate these values in action.</p>
+        <section id="universal-traits" class="container mx-auto px-6 py-12 mb-20">
+            <h3 class="text-3xl font-bold text-center mb-12 text-rockies-purple-dark">My Universal Professional Traits</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">These are the fundamental character traits that define my professional approach, serving as a strong foundation for success in any role. Click on each trait to see how I've demonstrated it through my experience.</p>
             <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
                 <div id="drivers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <!-- Dandy Driver cards will be rendered here by JS -->
+                    <!-- Universal Trait cards will be rendered here by JS -->
+                    <div class="universal-trait-card bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-rockies-purple-dark" data-trait-tag="DD_Customer">
+                        <img src="uploaded:obsess over customers.gif-49233d75-47cc-492b-b550-4cdaadc0e9da" alt="Needs-Driven Collaborator" class="mb-4 w-24 h-24 object-contain">
+                        <h3 class="text-xl font-semibold text-rockies-purple-dark mb-2">Needs-Driven Collaborator</h3>
+                        <p class="text-sm text-gray-600">This trait emphasizes a proactive approach to understanding and addressing core requirements.</p>
+                    </div>
+                    <div class="universal-trait-card bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-rockies-purple-dark" data-trait-tag="DD_Owner">
+                        <img src="uploaded:be an owner.gif-b55be446-22c5-4859-a53b-a7743660a14a" alt="Accountability" class="mb-4 w-24 h-24 object-contain">
+                        <h3 class="text-xl font-semibold text-rockies-purple-dark mb-2">Accountability</h3>
+                        <p class="text-sm text-gray-600">This embodies taking full responsibility for initiatives, outcomes, and continuous improvement.</p>
+                    </div>
+                    <div class="universal-trait-card bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-rockies-purple-dark" data-trait-tag="DD_Quality">
+                        <img src="https://placehold.co/100x100/3C1053/C0C0C0?text=Excellence" alt="Excellence" class="mb-4 w-24 h-24 object-contain">
+                        <h3 class="text-xl font-semibold text-rockies-purple-dark mb-2">Excellence</h3>
+                        <p class="text-sm text-gray-600">This highlights a commitment to high standards, continuous innovation, and striving for superior outcomes.</p>
+                    </div>
+                    <div class="universal-trait-card bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-rockies-purple-dark" data-trait-tag="DD_WinOne">
+                        <img src="uploaded:win as one.gif-fc647355-0ea8-481e-8064-418279212e18" alt="Collaboration" class="mb-4 w-24 h-24 object-contain">
+                        <h3 class="text-xl font-semibold text-rockies-purple-dark mb-2">Collaboration</h3>
+                        <p class="text-sm text-gray-600">This focuses on the power of teamwork, transparent communication, mutual support, and breaking down silos to achieve shared goals.</p>
+                    </div>
+                    <div class="universal-trait-card bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-rockies-purple-dark" data-trait-tag="DD_WalkFloor">
+                        <img src="uploaded:walk the floor.gif-b985570f-4de9-4210-91fa-c3b488b8767b" alt="Groundedness" class="mb-4 w-24 h-24 object-contain">
+                        <h3 class="text-xl font-semibold text-rockies-purple-dark mb-2">Groundedness</h3>
+                        <p class="text-sm text-gray-600">This emphasizes hands-on understanding, operational insight, and a pragmatic approach to problem-solving based on real-world conditions.</p>
+                    </div>
+                    <div class="universal-trait-card bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-rockies-purple-dark" data-trait-tag="DD_Speed">
+                        <img src="uploaded:move at dandy speed.gif-93fe6bad-0741-42b1-be13-0783866f2ff8" alt="Agility" class="mb-4 w-24 h-24 object-contain">
+                        <h3 class="text-xl font-semibold text-rockies-purple-dark mb-2">Agility</h3>
+                        <p class="text-sm text-gray-600">This trait is about intentional urgency, swift decision-making, adaptability, and a bias for action to drive impactful progress.</p>
+                    </div>
+                    <div class="universal-trait-card bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-rockies-purple-dark" data-trait-tag="DD_Tomorrow">
+                        <img src="uploaded:see tomorrow clearly.gif-1a49328d-7ed9-42ad-8813-6f68e64f899c" alt="Foresight" class="mb-4 w-24 h-24 object-contain">
+                        <h3 class="text-xl font-semibold text-rockies-purple-dark mb-2">Foresight</h3>
+                        <p class="text-sm text-gray-600">This highlights the ability to anticipate future needs, connect disparate information, strategize effectively, and prepare for evolving challenges and opportunities.</p>
+                    </div>
+                    <div class="universal-trait-card bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-rockies-purple-dark" data-trait-tag="DD_Teams">
+                        <img src="uploaded:build winning teams.gif-25437add-7906-437a-bed2-a5cf4ed51857" alt="Empowerment" class="mb-4 w-24 h-24 object-contain">
+                        <h3 class="text-xl font-semibold text-rockies-purple-dark mb-2">Empowerment</h3>
+                        <p class="text-sm text-gray-600">This focuses on developing, mentoring, and inspiring others to achieve high performance, fostering an environment where talent thrives.</p>
+                    </div>
                 </div>
-                <div id="driver-details-pane" class="mt-8 p-6 bg-emerald-50 rounded-lg min-h-[250px] border border-emerald-100">
-                    <h4 id="driver-details-title" class="text-xl font-semibold mb-3 text-dandy-green-dark">Select a Dandy Driver to learn more</h4>
+                <div id="driver-details-pane" class="mt-8 p-6 bg-gray-50 rounded-lg min-h-[250px] border border-gray-100">
+                    <h4 id="driver-details-title" class="text-xl font-semibold mb-3 text-rockies-purple-dark">Select a Trait to learn more</h4>
                     <p id="driver-details-description" class="text-gray-700 mb-4"></p>
                     <ul id="driver-details-list" class="list-disc pl-5 space-y-2 text-gray-700"></ul>
                 </div>
@@ -200,19 +290,19 @@
         </section>
 
         <section id="impact" class="container mx-auto px-6 py-12 mb-20">
-            <h3 class="text-3xl font-bold text-center mb-12 text-dandy-green-dark">Key Impacts at Dandy</h3>
+            <h3 class="text-3xl font-bold text-center mb-12 text-rockies-purple-dark">Key Impacts at Dandy</h3>
             <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">A closer look at the most significant projects and contributions made within Dandy, showcasing a direct alignment with strategic business and people operations goals, demonstrating concrete results achieved in their roles.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
-                    <h4 class="text-xl font-bold mb-3 text-dandy-green-dark">L&D Program Development</h4>
+                    <h4 class="text-xl font-bold mb-3 text-rockies-purple-dark">L&D Program Development</h4>
                     <p class="text-gray-600">Developed and scaled comprehensive training curricula for four key manufacturing departments, establishing a foundation for the "Gold Standard" L&D department.</p>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
-                    <h4 class="text-xl font-bold mb-3 text-dandy-green-dark">Onboarding Automation</h4>
-                    <p class="text-gray-600">Engineered a new-hire automation system using Google Sheets and custom scripts, drastically reducing manual admin work for onboarding across 10 departments and 2 lab sites.</p>
+                    <h4 class="text-xl font-bold mb-3 text-rockies-purple-dark">Onboarding Automation</h4>
+                    <p class="text-600">Engineered a new-hire automation system using Google Sheets and custom scripts, drastically reducing manual admin work for onboarding across 10 departments and 2 lab sites.</p>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
-                    <h4 class="text-xl font-bold mb-3 text-dandy-green-dark">Technical Subject Matter Expert</h4>
+                    <h4 class="text-xl font-bold mb-3 text-rockies-purple-dark">Technical Subject Matter Expert</h4>
                     <p class="text-gray-600">Served as the go-to expert for 3D printing and removables workflows, troubleshooting complex issues and supervising technical teams to ensure quality and efficiency.</p>
                 </div>
             </div>
@@ -304,54 +394,89 @@
             };
 
             const competencyData = {
-                labels: ['Learning & Development (L&D)', 'Leadership & Management', 'Technical Automation & AI', 'Dental Industry Expertise', 'Communication & Content Creation', 'Strategic Planning'],
-                values: [5, 5, 4, 4, 5, 3] 
+                labels: [
+                    'Learning Program Design & Delivery �',
+                    'Strategic Leadership & Team Development 🌟',
+                    'Workflow Automation & Tech Integration ⚙️',
+                    'Specialized Industry Knowledge (Dental) 🦷',
+                    'Impactful Communication & Content 📢',
+                    'Operational Strategy & Process Improvement 📊'
+                ],
+                values: [3.8, 3.9, 3.7, 3.2, 3.8, 3.5],
+                relatableQuantifications: [
+                    "Designed and delivered training curricula, leading to a +95% new-hire graduation rate and reducing ramp-up time to one week.",
+                    "Consistently led diverse teams of up to 13 individuals, fostering high performance and receiving formal recognition for leadership excellence.",
+                    "Proactively engineered and deployed workflow automations, including new-hire onboarding and email systems, saving an estimated 60+ hours annually.",
+                    "Served as a subject-matter expert in 3D printing and removables, troubleshooting complex issues and supervising operations across 12+ machines.",
+                    "Achieved 100% customer satisfaction in direct communication roles and independently developed external-facing web content with analytical tracking.",
+                    "Initiated and implemented strategic compliance plans and optimized merchandising efficiency, resulting in significant operational improvements."
+                ]
             };
 
+
+            // Updated dandyDriversData with universal traits and corresponding tags
             const dandyDriversData = [
                 {
-                    name: "Obsess Over Customers",
+                    name: "Needs-Driven Collaborator",
                     tag: "DD_Customer",
-                    description: "Center our customer in everything you do. Exceed expectations through constant innovation and thoughtful risk-taking, delivering solutions that surprise, delight, and create lasting value for our customer. Anticipate their needs by deeply understanding their challenges, proactively identifying opportunities, and ensuring every interaction builds trust and strengthens our relationship."
+                    image: "uploaded:obsess over customers.gif-49233d75-47cc-492b-b550-4cdaadc0e9da",
+                    description: "This trait emphasizes a proactive approach to understanding and addressing core requirements, collaborating closely with stakeholders to build solutions that genuinely fit their needs."
                 },
                 {
-                    name: "Be an Owner",
+                    name: "Accountability",
                     tag: "DD_Owner",
-                    description: "Dandy belongs to each of us. Take initiative and find solutions, not excuses. Devour challenges and lean into the problems that others think are too hard. Champion accountability, scale obstacles, and drive meaningful impact. Take responsibility for your mistakes often and transparently. Be an owner, not a renter."
+                    image: "uploaded:be an owner.gif-b55be446-22c5-4859-a53b-a7743660a14a",
+                    description: "This embodies taking full responsibility for initiatives, outcomes, and continuous improvement, without making excuses."
                 },
                 {
-                    name: "Deliver Quality Results",
+                    name: "Excellence",
                     tag: "DD_Quality",
-                    description: "Execute with excellence. Achieve goals that drive meaningful outcomes and define unreasonably high standards for success. Demand superior quality from yourself and others, innovate on what is commonplace, and rebuild from the ground up when necessary."
+                    image: "https://placehold.co/100x100/3C1053/C0C0C0?text=Excellence",
+                    description: "This highlights a commitment to high standards, continuous innovation, and striving for superior outcomes."
                 },
                 {
-                    name: "Win as One",
+                    name: "Collaboration",
                     tag: "DD_WinOne",
-                    description: "Collective effort, greater results. Earn trust, be transparent, and support teammates. Communicate respectfully, delegate appropriately, and say important things, even when difficult. Eliminate silos and foster collaboration to achieve more than what's possible alone."
+                    image: "uploaded:win as one.gif-fc647355-0ea8-481e-8064-418279212e18",
+                    description: "This focuses on the power of teamwork, transparent communication, mutual support, and breaking down silos to achieve shared goals."
                 },
                 {
-                    name: "Walk the Floor",
+                    name: "Groundedness",
                     tag: "DD_WalkFloor",
-                    description: "Operate at the lowest level of detail. Work with precision and understand all of the inputs to your systems. Solve problems by recognizing how work gets done in practice, not just in theory. Question when metrics and experience differ to uncover root causes and opportunities for improvement."
+                    image: "uploaded:walk the floor.gif-b985570f-4de9-4210-91fa-c3b488b8767b",
+                    description: "This emphasizes hands-on understanding, operational insight, and a pragmatic approach to problem-solving based on real-world conditions."
                 },
                 {
-                    name: "Move at Dandy Speed",
+                    name: "Agility",
                     tag: "DD_Speed",
-                    description: "Act with urgency and intention. Make thoughtful, swift decisions that keep us moving forward, balancing long-term impact with a bias for action. Embrace calculated risks, course-correct as needed, and prioritize progress over perfection to deliver impactful results."
+                    image: "uploaded:move at dandy speed.gif-93fe6bad-0741-42b1-be13-0783866f2ff8",
+                    description: "This trait is about intentional urgency, swift decision-making, adaptability, and a bias for action to drive impactful progress."
                 },
                 {
-                    name: "See Tomorrow Clearly",
+                    name: "Foresight",
                     tag: "DD_Tomorrow",
-                    description: "Clarity in chaos. Connect the dots across systems, challenge assumptions, and distill complexity into smart, simple strategies. Tackle ambiguity with curiosity and courage, anticipating risks and opportunities while making informed tradeoffs. By understanding the future, you prioritize ruthlessly and ensure that today’s decisions set up for tomorrow’s success."
+                    image: "uploaded:see tomorrow clearly.gif-1a49328d-7ed9-42ad-8813-6f68e64f899c",
+                    description: "This highlights the ability to anticipate future needs, connect disparate information, strategize effectively, and prepare for evolving challenges and opportunities."
                 },
                 {
-                    name: "Build Winning Teams",
+                    name: "Empowerment",
                     tag: "DD_Teams",
-                    description: "High performers, higher standards. Develop Dandy's greatest strength. Set high standards, invest in growth to build engaged teams, and hire top talent against these criteria. Celebrate the wins, provide constant feedback, and make difficult decisions to maintain the bar for performance."
+                    image: "uploaded:build winning teams.gif-25437add-7906-437a-bed2-a5cf4ed51857",
+                    description: "This focuses on developing, mentoring, and inspiring others to achieve high performance, fostering an environment where talent thrives."
                 }
             ];
 
-            let activeDriverCard = null; // To keep track of the currently active card
+            // Mapping for competency labels to tags in resumeData.experience
+            const competencyTagMap = {
+                'Learning Program Design & Delivery 📚': ['L&D'],
+                'Strategic Leadership & Team Development 🌟': ['Leadership'],
+                'Workflow Automation & Tech Integration ⚙️': ['Automation', 'Technical'],
+                'Specialized Industry Knowledge (Dental) 🦷': ['Dental'],
+                'Impactful Communication & Content 📢': ['Comms'],
+                'Operational Strategy & Process Improvement 📊': ['Strategy']
+            };
+
+            let activeUniversalTraitCard = null;
 
             function renderTimeline() {
                 const container = document.getElementById('timeline-container');
@@ -374,18 +499,21 @@
                 container.innerHTML = html;
             }
 
-            let competencyChart;
+            let competencyChartInstance;
             function renderCompetencyChart() {
                 const ctx = document.getElementById('competencyChart').getContext('2d');
-                competencyChart = new Chart(ctx, {
+                if (competencyChartInstance) {
+                    competencyChartInstance.destroy(); // Destroy existing chart before re-rendering
+                }
+                competencyChartInstance = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: competencyData.labels,
                         datasets: [{
                             label: 'Proficiency Level',
                             data: competencyData.values,
-                            backgroundColor: '#61F4D3', /* Lime green accent */
-                            borderColor: '#3FE0BF', /* Darker lime */
+                            backgroundColor: '#C0C0C0', /* Silver for chart bars */
+                            borderColor: '#A0A0A0', /* Darker Silver border */
                             borderWidth: 1,
                             borderRadius: 4,
                         }]
@@ -397,7 +525,7 @@
                         scales: {
                             x: {
                                 beginAtZero: true,
-                                max: 5,
+                                max: 4,
                                 grid: { display: false },
                                 ticks: { display: false }
                             },
@@ -405,7 +533,7 @@
                                 grid: { display: false },
                                 ticks: {
                                     font: { size: 14 },
-                                    padding: 10 // Added for better label spacing
+                                    padding: 10
                                 }
                             }
                         },
@@ -415,7 +543,7 @@
                                 enabled: true,
                                 callbacks: {
                                     label: function(context) {
-                                        return ` Proficiency: ${context.raw}/5`;
+                                        return ` Proficiency: ${context.raw}/4`;
                                     }
                                 }
                             }
@@ -423,145 +551,193 @@
                         onClick: (event, elements) => {
                             if (elements.length > 0) {
                                 const elementIndex = elements[0].index;
-                                const label = competencyChart.data.labels[elementIndex];
-                                let tag;
-                                if (label.includes('L&D')) tag = 'L&D';
-                                else if (label.includes('Leadership')) tag = 'Leadership';
-                                else if (label.includes('Automation')) tag = 'Automation';
-                                else if (label.includes('Dental')) tag = 'Dental';
-                                else if (label.includes('Strategic')) tag = 'Strategy';
-                                else if (label.includes('Communication')) tag = 'Comms';
-                                updateCompetencyDetails(tag, label);
+                                const label = competencyChartInstance.data.labels[elementIndex];
+                                const quantification = competencyData.relatableQuantifications[elementIndex];
+                                displaySkillDetails(label, quantification);
                             }
                         }
                     }
                 });
             }
-            
-            function updateCompetencyDetails(tag, label) {
-                const titleEl = document.getElementById('details-title');
-                const listEl = document.getElementById('details-list');
-                
-                titleEl.textContent = `Evidence for: ${label}`;
-                
-                const relevantDetails = resumeData.experience
-                    .flatMap(job => job.details)
-                    .filter(detail => detail.tags.includes(tag));
 
-                if (relevantDetails.length > 0) {
-                    listEl.innerHTML = relevantDetails.map(d => `<li>${d.text}</li>`).join('');
+            // Function to display skill details based on competency label
+            function displaySkillDetails(competencyLabel, quantification = "") {
+                const skillDetailsPane = document.getElementById('competency-details');
+                const detailsTitle = document.getElementById('details-title');
+                const detailsList = document.getElementById('details-list');
+                const competencyQuantification = document.getElementById('competency-quantification');
+
+                detailsTitle.textContent = `${competencyLabel} - Relevant Experience`;
+                detailsList.innerHTML = '';
+
+                // Display the relatable quantification
+                if (quantification) {
+                    competencyQuantification.textContent = quantification;
+                    competencyQuantification.classList.remove('hidden');
                 } else {
-                    listEl.innerHTML = '<li>No specific examples found for this category.</li>';
+                    competencyQuantification.classList.add('hidden');
                 }
+
+                const relevantTags = competencyTagMap[competencyLabel] || [];
+                let foundDetails = false;
+
+                resumeData.experience.forEach(job => {
+                    job.details.forEach(detail => {
+                        const hasRelevantTag = relevantTags.some(tag => detail.tags.includes(tag));
+                        if (hasRelevantTag) {
+                            const li = document.createElement('li');
+                            li.innerHTML = `<strong>${job.role} (${job.period}):</strong> ${detail.text}`;
+                            detailsList.appendChild(li);
+                            foundDetails = true;
+                        }
+                    });
+                });
+
+                if (!foundDetails) {
+                    const li = document.createElement('li');
+                    li.textContent = `No specific experience points tagged for "${competencyLabel}" yet.`;
+                    detailsList.appendChild(li);
+                }
+
+                skillDetailsPane.classList.remove('hidden');
             }
 
-            function renderDandyDrivers() {
+            // Function to render Universal Trait cards
+            function renderUniversalTraits() {
                 const driversGrid = document.getElementById('drivers-grid');
                 let html = '';
-                dandyDriversData.forEach(driver => {
+                dandyDriversData.forEach(trait => {
                     html += `
-                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 text-center font-semibold text-dandy-green-dark dandy-driver-card" data-driver-tag="${driver.tag}">
-                            ${driver.name}
+                        <div class="universal-trait-card bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-rockies-purple-dark" data-trait-tag="${trait.tag}">
+                            <img src="${trait.image}" alt="${trait.name}" class="mb-4 w-24 h-24 object-contain">
+                            <h3 class="text-xl font-semibold text-rockies-purple-dark mb-2">${trait.name}</h3>
+                            <p class="text-sm text-gray-600">${trait.description.split('.')[0]}.</p>
                         </div>
                     `;
                 });
                 driversGrid.innerHTML = html;
 
-                driversGrid.querySelectorAll('.dandy-driver-card').forEach(card => {
+                // Add event listeners after rendering
+                document.querySelectorAll('.universal-trait-card').forEach(card => {
                     card.addEventListener('click', () => {
-                        // Remove active class from previous card
-                        if (activeDriverCard) {
-                            activeDriverCard.classList.remove('active');
-                        }
-                        // Add active class to current card
+                        const traitTag = card.dataset.traitTag;
+                        displayUniversalTraitDetails(traitTag);
+
+                        // Remove active class from all cards
+                        document.querySelectorAll('.universal-trait-card').forEach(c => c.classList.remove('active'));
+                        // Add active class to the clicked card
                         card.classList.add('active');
-                        activeDriverCard = card;
-
-                        const tag = card.dataset.driverTag;
-                        const driver = dandyDriversData.find(d => d.tag === tag);
-                        updateDandyDriverDetails(driver);
                     });
                 });
             }
 
-            function updateDandyDriverDetails(driver) {
-                const titleEl = document.getElementById('driver-details-title');
-                const descriptionEl = document.getElementById('driver-details-description');
-                const listEl = document.getElementById('driver-details-list');
+            // Function to display Universal Trait details
+            function displayUniversalTraitDetails(traitTag) {
+                const driverDetailsPane = document.getElementById('driver-details-pane');
+                const driverDetailsTitle = document.getElementById('driver-details-title');
+                const driverDetailsDescription = document.getElementById('driver-details-description');
+                const driverDetailsList = document.getElementById('driver-details-list');
 
-                if (!driver) { // Added a check for undefined driver
-                    titleEl.textContent = 'Select a Dandy Driver to learn more';
-                    descriptionEl.textContent = '';
-                    listEl.innerHTML = '';
-                    return;
-                }
+                const trait = dandyDriversData.find(d => d.tag === traitTag);
 
-                titleEl.textContent = driver.name;
-                descriptionEl.textContent = driver.description;
-                
-                const allRelevantDetails = resumeData.experience
-                    .flatMap(job => job.details)
-                    .filter(detail => detail.tags.includes(driver.tag));
-                
-                // Limit to top 3 relevant points if more exist
-                const displayDetails = allRelevantDetails.slice(0, 3);
+                if (trait) {
+                    driverDetailsTitle.textContent = trait.name;
+                    driverDetailsDescription.textContent = trait.description;
+                    driverDetailsList.innerHTML = '';
 
-                if (displayDetails.length > 0) {
-                    listEl.innerHTML = displayDetails.map(d => `<li>${d.text}</li>`).join('');
+                    let foundDetails = false;
+                    resumeData.experience.forEach(job => {
+                        job.details.forEach(detail => {
+                            if (detail.tags.includes(traitTag)) {
+                                const li = document.createElement('li');
+                                li.innerHTML = `<strong>${job.role} (${job.period}):</strong> ${detail.text}`;
+                                driverDetailsList.appendChild(li);
+                                foundDetails = true;
+                            }
+                        });
+                    });
+
+                    if (!foundDetails) {
+                        const li = document.createElement('li');
+                        li.textContent = `No specific experience points found directly tagged for "${trait.name}" yet.`;
+                        driverDetailsList.appendChild(li);
+                    }
+
+                    driverDetailsPane.classList.remove('hidden');
                 } else {
-                    listEl.innerHTML = '<li>No direct examples found for this driver in the provided resume.</li>';
+                    driverDetailsPane.classList.add('hidden');
                 }
             }
 
-            function handleScrollspy() {
-                const sections = document.querySelectorAll('section');
-                const navLinks = document.querySelectorAll('.nav-link');
-                
-                // Logic for active link on scroll (already present)
-                window.onscroll = () => {
-                    let current = '';
-                    sections.forEach(section => {
-                        const sectionTop = section.offsetTop;
-                        // Added 150px offset to make the active state switch a bit earlier
-                        if (pageYOffset >= sectionTop - 150) { 
-                            current = section.getAttribute('id');
-                        }
-                    });
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
 
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href').includes(current)) {
-                            link.classList.add('active');
-                        }
-                    });
-                };
+                    // Remove active class from all nav links
+                    document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+                    // Add active class to the clicked nav link
+                    this.classList.add('active');
 
-                // NEW LOGIC: Smooth scrolling when a nav link is clicked
-                navLinks.forEach(link => {
-                    link.addEventListener('click', (event) => {
-                        event.preventDefault(); // Prevent default jump behavior
-                        const targetId = event.target.getAttribute('href').substring(1); // Get the section ID
-                        const targetSection = document.getElementById(targetId);
-
-                        if (targetSection) {
-                            targetSection.scrollIntoView({
-                                behavior: 'smooth' // Smooth scroll effect
-                            });
-
-                            // Optionally, update active class immediately on click
-                            navLinks.forEach(nav => nav.classList.remove('active'));
-                            event.target.classList.add('active');
-                        }
-                    });
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - document.querySelector('header').offsetHeight,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
-            }
+            });
 
-            // Ensure all rendering and event listeners are called
+            // Highlight active nav link on scroll
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('nav .nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-50% 0px -49% 0px',
+                threshold: 0
+            };
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${entry.target.id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // Initial render calls
             renderTimeline();
             renderCompetencyChart();
-            renderDandyDrivers();
-            handleScrollspy();
+            renderUniversalTraits();
+
+            // Set initial active state for the first section on load
+            if (sections.length > 0) {
+                navLinks[0].classList.add('active');
+            }
+
+            // Optional: Immediately show details for the first competency and first Universal Trait on load
+            // This provides initial content rather than blank panes
+            if (competencyData.labels.length > 0) {
+                displaySkillDetails(competencyData.labels[0], competencyData.relatableQuantifications[0]);
+            }
+            if (dandyDriversData.length > 0) {
+                displayUniversalTraitDetails(dandyDriversData[0].tag);
+                document.querySelector(`.universal-trait-card[data-trait-tag="${dandyDriversData[0].tag}"]`).classList.add('active');
+            }
         });
     </script>
 </body>
 </html>
+�
